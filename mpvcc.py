@@ -122,11 +122,11 @@ def run_interactive_mode(options):
 
 def encode(options, ffparams):
     args = ['ffmpeg', '-hide_banner']
-    if options.get('ss'):
+    if options.get('ss') and options.get('to'):
         args += ['-ss', str(options['ss'])]
     args += ['-i', options['i']]
-    if options.get('to'):
-        args += ['-t', str(options['to'])]
+    if options.get('ss') and options.get('to'):
+        args += ['-t', str(options['to'] - options['ss'])]
     if options.get('vfi'):
         args += ['-vf', options['vfi']]
     
