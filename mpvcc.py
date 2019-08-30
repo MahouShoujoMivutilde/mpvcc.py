@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import os
 import tempfile
 import subprocess
@@ -18,13 +20,13 @@ DESC = """
         выделить мышью нужную часть, нажать "a" для подтверждения.
 
     Обрезка видео по времени
-        нажать "c" для отметки начала, 
+        нажать "c" для отметки начала,
         нажать еще раз для отметки окончания нужного фрагмента.
 
     (Нажать "q" для выхода из mpv и начала кодирования с выбранными параметрами)
 
 Примеры
-    команда 
+    команда
         mpvcc.py -i input.mkv -c:v vp9 -crf 30 -b:v 0 -threads 16 -an output.webm
 
     даст на выходе из mpv, при отсутствии какого-либо с ним взаимодействия, просто
@@ -32,7 +34,7 @@ DESC = """
 
     но, если, скажем, выбрать кроп картинки, то будет что-то вроде
         ffmpeg -hide_banner -i input.mkv -vf crop=593:356:259:115 -c:v vp9 -crf 30 -b:v 0 -threads 16 -an output.webm
-    
+
     а если выбрать обрезку длины, то получится, например
         ffmpeg -hide_banner -ss 1.018 -i input.mkv -t 5.822 -c:v vp9 -crf 30 -b:v 0 -threads 16 -an output.webm
 
@@ -105,7 +107,7 @@ def run_interactive_mode(options):
 
     if cut:
         print('[CUT] {} - {}'.format(
-            'START' if cut[0] < 0 else _timestamp(cut[0]), 
+            'START' if cut[0] < 0 else _timestamp(cut[0]),
             'END' if cut[1] < 0 else _timestamp(cut[1])
         ))
 
@@ -117,7 +119,7 @@ def run_interactive_mode(options):
     if crop:
         print('[CROP] x={}, y={}, width={}, height={}'.format(crop[2], crop[3], crop[0], crop[1]))
         options.vfi = 'crop={}:{}:{}:{}'.format(*crop)
-    
+
     return vars(options)
 
 def encode(options, ffparams):
@@ -129,7 +131,7 @@ def encode(options, ffparams):
         args += ['-t', str(options['to'] - options['ss'])]
     if options.get('vfi'):
         args += ['-vf', options['vfi']]
-    
+
     args += ffparams
     print(' '.join([str(i) for i in args]))
     p = subprocess.Popen(args)
@@ -138,6 +140,6 @@ def encode(options, ffparams):
 
 if __name__ == '__main__':
     options, ffparams = get_args()
-    
+
     opt = run_interactive_mode(options)
     encode(opt, ffparams)
