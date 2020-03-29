@@ -1,4 +1,8 @@
-Более удобная для вырезания фрагментов [альтернатива](https://github.com/snylonue/mpv_slicing_copy).
+## UPD 2020
+
+Удобная для вырезания фрагментов алтернатива - [sub-cut](https://github.com/kelciour/mpv-scripts/blob/master/sub-cut.lua) (вырубить интеграцию сабов можно убрав вызов write_subtitles_fragment в cut_video_fragment).
+
+Более легковесный, но с некоторыми нюансами вариант [mpv_slicing_copy](https://github.com/snylonue/mpv_slicing_copy).
 
 ---
 
